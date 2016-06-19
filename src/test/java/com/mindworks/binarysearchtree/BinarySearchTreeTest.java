@@ -133,6 +133,37 @@ public class BinarySearchTreeTest {
         verifyTraversals(binarySearchTree, outputStream, "10 14 19 27 31 35 42 ", "27 14 10 19 35 31 42 ", "10 19 14 31 42 35 27 ", "27 14 35 10 19 31 42 ");
     }
 
+    @Test
+    public void shouldVerifyHeight() throws Exception {
+        final BinarySearchTree binarySearchTree = new BinarySearchTree();
+
+        assertThat(binarySearchTree.height(), is(0));
+
+        binarySearchTree.insert(27);
+        assertThat(binarySearchTree.height(), is(0));
+
+        binarySearchTree.insert(14);
+        assertThat(binarySearchTree.height(), is(1));
+
+        binarySearchTree.insert(35);
+        assertThat(binarySearchTree.height(), is(1));
+
+        binarySearchTree.insert(10);
+        assertThat(binarySearchTree.height(), is(2));
+
+        binarySearchTree.insert(19);
+        assertThat(binarySearchTree.height(), is(2));
+
+        binarySearchTree.insert(31);
+        assertThat(binarySearchTree.height(), is(2));
+
+        binarySearchTree.insert(42);
+        assertThat(binarySearchTree.height(), is(2));
+
+        binarySearchTree.insert(45);
+        assertThat(binarySearchTree.height(), is(3));
+    }
+
     private void verifyTraversals(final BinarySearchTree binarySearchTree,
                                   ByteArrayOutputStream outputStream, final String expectedInorder,
                                   final String expectedPreorder,

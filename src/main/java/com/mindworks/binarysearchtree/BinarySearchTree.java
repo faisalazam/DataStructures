@@ -3,6 +3,8 @@ package com.mindworks.binarysearchtree;
 import java.util.LinkedList;
 import java.util.List;
 
+import static java.lang.Math.max;
+
 /*
  * A binary search tree (BST) is a tree in which all nodes follows the below mentioned properties:
  * The left sub-tree of a node has key less than or equal to its parent node's key.
@@ -71,6 +73,11 @@ public class BinarySearchTree {
 //        }
     }
 
+    public int height() {
+        final int height = height(root) - 1;
+        return height < 0 ? 0 : height;
+    }
+
     public void traverse(final TraversalType traversalType) {
         switch (traversalType) {
             case IN_ORDER:
@@ -88,6 +95,17 @@ public class BinarySearchTree {
             default:
                 //do nothing
         }
+    }
+
+    private int height(final BinarySearchTreeNode currentRootNode) {
+        if (currentRootNode == null) {
+            return 0;
+        }
+
+        return 1 + max(
+                height(currentRootNode.getLeftChild()),
+                height(currentRootNode.getRightChild())
+        );
     }
 
     /*
