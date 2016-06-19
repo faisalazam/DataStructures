@@ -1,5 +1,8 @@
 package com.mindworks.binarysearchtree;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /*
  * A binary search tree (BST) is a tree in which all nodes follows the below mentioned properties:
  * The left sub-tree of a node has key less than or equal to its parent node's key.
@@ -16,7 +19,8 @@ public class BinarySearchTree {
     enum TraversalType {
         IN_ORDER,
         PRE_ORDER,
-        POST_ORDER
+        POST_ORDER,
+        LEVEL_ORDER
     }
 
     private BinarySearchTreeNode root;
@@ -78,6 +82,9 @@ public class BinarySearchTree {
             case POST_ORDER:
                 postOrderTraversal(root);
                 break;
+            case LEVEL_ORDER:
+                levelOrderTraversal(root);
+                break;
             default:
                 //do nothing
         }
@@ -119,5 +126,29 @@ public class BinarySearchTree {
         inOrderTraversal(currentRootNode.getLeftChild());
         System.out.print(currentRootNode.getData() + " ");
         inOrderTraversal(currentRootNode.getRightChild());
+    }
+
+    /**
+     * Breadth-first search (BFS) or level order traversal is an algorithm for traversing or searching tree or graph data structures.
+     * It starts at the tree root (or some arbitrary node of a graph, sometimes referred to as a 'search key'[1])
+     * and explores the neighbor nodes first, before moving to the next level neighbors
+     */
+    private void levelOrderTraversal(final BinarySearchTreeNode currentRootNode) {
+        final List<BinarySearchTreeNode> nodes = new LinkedList<>();
+        if (currentRootNode != null) {
+            nodes.add(currentRootNode);
+        }
+
+        while (!nodes.isEmpty() && nodes.get(0) != null) {
+            final BinarySearchTreeNode node = nodes.remove(0);
+            System.out.print(node.getData() + " ");
+
+            if (node.getLeftChild() != null) {
+                nodes.add(node.getLeftChild());
+            }
+            if (node.getRightChild() != null) {
+                nodes.add(node.getRightChild());
+            }
+        }
     }
 }

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 import static com.mindworks.binarysearchtree.BinarySearchTree.TraversalType.IN_ORDER;
+import static com.mindworks.binarysearchtree.BinarySearchTree.TraversalType.LEVEL_ORDER;
 import static com.mindworks.binarysearchtree.BinarySearchTree.TraversalType.POST_ORDER;
 import static com.mindworks.binarysearchtree.BinarySearchTree.TraversalType.PRE_ORDER;
 import static java.lang.System.setOut;
@@ -108,34 +109,35 @@ public class BinarySearchTreeTest {
 
         final BinarySearchTree binarySearchTree = new BinarySearchTree();
 
-        verifyTraversals(binarySearchTree, outputStream, "", "", "");
+        verifyTraversals(binarySearchTree, outputStream, "", "", "", "");
 
         binarySearchTree.insert(27);
-        verifyTraversals(binarySearchTree, outputStream, "27 ", "27 ", "27 ");
+        verifyTraversals(binarySearchTree, outputStream, "27 ", "27 ", "27 ", "27 ");
 
         binarySearchTree.insert(14);
-        verifyTraversals(binarySearchTree, outputStream, "14 27 ", "27 14 ", "14 27 ");
+        verifyTraversals(binarySearchTree, outputStream, "14 27 ", "27 14 ", "14 27 ", "27 14 ");
 
         binarySearchTree.insert(35);
-        verifyTraversals(binarySearchTree, outputStream, "14 27 35 ", "27 14 35 ", "14 35 27 ");
+        verifyTraversals(binarySearchTree, outputStream, "14 27 35 ", "27 14 35 ", "14 35 27 ", "27 14 35 ");
 
         binarySearchTree.insert(10);
-        verifyTraversals(binarySearchTree, outputStream, "10 14 27 35 ", "27 14 10 35 ", "10 14 35 27 ");
+        verifyTraversals(binarySearchTree, outputStream, "10 14 27 35 ", "27 14 10 35 ", "10 14 35 27 ", "27 14 35 10 ");
 
         binarySearchTree.insert(19);
-        verifyTraversals(binarySearchTree, outputStream, "10 14 19 27 35 ", "27 14 10 19 35 ", "10 19 14 35 27 ");
+        verifyTraversals(binarySearchTree, outputStream, "10 14 19 27 35 ", "27 14 10 19 35 ", "10 19 14 35 27 ", "27 14 35 10 19 ");
 
         binarySearchTree.insert(31);
-        verifyTraversals(binarySearchTree, outputStream, "10 14 19 27 31 35 ", "27 14 10 19 35 31 ", "10 19 14 31 35 27 ");
+        verifyTraversals(binarySearchTree, outputStream, "10 14 19 27 31 35 ", "27 14 10 19 35 31 ", "10 19 14 31 35 27 ", "27 14 35 10 19 31 ");
 
         binarySearchTree.insert(42);
-        verifyTraversals(binarySearchTree, outputStream, "10 14 19 27 31 35 42 ", "27 14 10 19 35 31 42 ", "10 19 14 31 42 35 27 ");
+        verifyTraversals(binarySearchTree, outputStream, "10 14 19 27 31 35 42 ", "27 14 10 19 35 31 42 ", "10 19 14 31 42 35 27 ", "27 14 35 10 19 31 42 ");
     }
 
     private void verifyTraversals(final BinarySearchTree binarySearchTree,
                                   ByteArrayOutputStream outputStream, final String expectedInorder,
                                   final String expectedPreorder,
-                                  final String expectedPostorder) throws IOException {
+                                  final String expectedPostorder,
+                                  final String expectedLevelorder) throws IOException {
         outputStream.reset();
         binarySearchTree.traverse(IN_ORDER);
         assertThat(outputStream.toString(), is(expectedInorder));
@@ -147,5 +149,9 @@ public class BinarySearchTreeTest {
         outputStream.reset();
         binarySearchTree.traverse(POST_ORDER);
         assertThat(outputStream.toString(), is(expectedPostorder));
+
+        outputStream.reset();
+        binarySearchTree.traverse(LEVEL_ORDER);
+        assertThat(outputStream.toString(), is(expectedLevelorder));
     }
 }
