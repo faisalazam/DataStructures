@@ -164,6 +164,85 @@ public class BinarySearchTreeTest {
         assertThat(binarySearchTree.height(), is(3));
     }
 
+    @Test
+    public void shouldVerifyParent() throws Exception {
+        final BinarySearchTreeNode randomNode = newNode(99);
+        final BinarySearchTree binarySearchTree = new BinarySearchTree();
+
+        assertThat(binarySearchTree.parent(null), nullValue());
+        assertThat(binarySearchTree.parent(88), nullValue());
+        assertThat(binarySearchTree.parent(randomNode), nullValue());
+
+        BinarySearchTreeNode insertedNode = binarySearchTree.insert(27);
+        assertThat(binarySearchTree.parent(insertedNode), nullValue());
+        assertThat(binarySearchTree.parent(76), nullValue());
+        assertThat(binarySearchTree.parent(randomNode), nullValue());
+
+        insertedNode = binarySearchTree.insert(14);
+        assertThat(binarySearchTree.parent(insertedNode).getData(), is(27));
+        assertThat(binarySearchTree.parent(14).getData(), is(27));
+        assertThat(binarySearchTree.parent(newNode(14)).getData(), is(27));
+
+        insertedNode = binarySearchTree.insert(35);
+        assertThat(binarySearchTree.parent(insertedNode).getData(), is(27));
+        assertThat(binarySearchTree.parent(newNode(14)).getData(), is(27));
+        assertThat(binarySearchTree.parent(14).getData(), is(27));
+        assertThat(binarySearchTree.parent(35).getData(), is(27));
+        assertThat(binarySearchTree.parent(randomNode), nullValue());
+
+        insertedNode = binarySearchTree.insert(10);
+        assertThat(binarySearchTree.parent(insertedNode).getData(), is(14));
+        assertThat(binarySearchTree.parent(newNode(14)).getData(), is(27));
+        assertThat(binarySearchTree.parent(newNode(35)).getData(), is(27));
+        assertThat(binarySearchTree.parent(10).getData(), is(14));
+        assertThat(binarySearchTree.parent(35).getData(), is(27));
+        assertThat(binarySearchTree.parent(35).getData(), is(27));
+
+        insertedNode = binarySearchTree.insert(19);
+        assertThat(binarySearchTree.parent(insertedNode).getData(), is(14));
+        assertThat(binarySearchTree.parent(newNode(10)).getData(), is(14));
+        assertThat(binarySearchTree.parent(newNode(14)).getData(), is(27));
+        assertThat(binarySearchTree.parent(newNode(35)).getData(), is(27));
+
+        insertedNode = binarySearchTree.insert(31);
+        assertThat(binarySearchTree.parent(insertedNode).getData(), is(35));
+        assertThat(binarySearchTree.parent(newNode(19)).getData(), is(14));
+        assertThat(binarySearchTree.parent(newNode(10)).getData(), is(14));
+        assertThat(binarySearchTree.parent(newNode(14)).getData(), is(27));
+        assertThat(binarySearchTree.parent(newNode(35)).getData(), is(27));
+
+        insertedNode = binarySearchTree.insert(42);
+        assertThat(binarySearchTree.parent(insertedNode).getData(), is(35));
+        assertThat(binarySearchTree.parent(newNode(31)).getData(), is(35));
+        assertThat(binarySearchTree.parent(newNode(19)).getData(), is(14));
+        assertThat(binarySearchTree.parent(newNode(10)).getData(), is(14));
+        assertThat(binarySearchTree.parent(newNode(14)).getData(), is(27));
+        assertThat(binarySearchTree.parent(newNode(35)).getData(), is(27));
+
+        insertedNode = binarySearchTree.insert(45);
+        assertThat(binarySearchTree.parent(insertedNode).getData(), is(42));
+        assertThat(binarySearchTree.parent(newNode(42)).getData(), is(35));
+        assertThat(binarySearchTree.parent(newNode(31)).getData(), is(35));
+        assertThat(binarySearchTree.parent(newNode(19)).getData(), is(14));
+        assertThat(binarySearchTree.parent(newNode(10)).getData(), is(14));
+        assertThat(binarySearchTree.parent(newNode(14)).getData(), is(27));
+        assertThat(binarySearchTree.parent(newNode(35)).getData(), is(27));
+        assertThat(binarySearchTree.parent(45).getData(), is(42));
+        assertThat(binarySearchTree.parent(42).getData(), is(35));
+        assertThat(binarySearchTree.parent(31).getData(), is(35));
+        assertThat(binarySearchTree.parent(19).getData(), is(14));
+        assertThat(binarySearchTree.parent(10).getData(), is(14));
+        assertThat(binarySearchTree.parent(14).getData(), is(27));
+        assertThat(binarySearchTree.parent(35).getData(), is(27));
+        assertThat(binarySearchTree.parent(65), nullValue());
+        assertThat(binarySearchTree.parent(null), nullValue());
+        assertThat(binarySearchTree.parent(randomNode), nullValue());
+    }
+
+    private BinarySearchTreeNode newNode(final int data) {
+        return new BinarySearchTreeNode(data, null, null);
+    }
+
     private void verifyTraversals(final BinarySearchTree binarySearchTree,
                                   ByteArrayOutputStream outputStream, final String expectedInorder,
                                   final String expectedPreorder,

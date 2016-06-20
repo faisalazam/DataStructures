@@ -27,10 +27,10 @@ public class BinarySearchTree {
 
     private BinarySearchTreeNode root;
 
-    public void insert(final int data) {
+    public BinarySearchTreeNode insert(final int data) {
         if (root == null) {
             root = new BinarySearchTreeNode(data, null, null);
-            return;
+            return root;
         }
 
         BinarySearchTreeNode currentRootNode = root;
@@ -48,6 +48,7 @@ public class BinarySearchTree {
                 currentRootNode = currentRootNode.getRightChild();
             }
         }
+        return currentRootNode;
     }
 
     public BinarySearchTreeNode search(final int data) {
@@ -76,6 +77,34 @@ public class BinarySearchTree {
     public int height() {
         final int height = height(root) - 1;
         return height < 0 ? 0 : height;
+    }
+
+    public BinarySearchTreeNode parent(final BinarySearchTreeNode nodeLookingForParent) {
+        if (nodeLookingForParent == null) {
+            return null;
+        }
+        return parent(nodeLookingForParent.getData());
+    }
+
+    public BinarySearchTreeNode parent(final int data) {
+        if (root == null) {
+            return null;
+        }
+
+        BinarySearchTreeNode parentNode = null;
+        BinarySearchTreeNode currentRootNode = root;
+        while (currentRootNode.getData() != data) {
+            parentNode = currentRootNode;
+            if (currentRootNode.getData() > data) {
+                currentRootNode = currentRootNode.getLeftChild();
+            } else {
+                currentRootNode = currentRootNode.getRightChild();
+            }
+            if (currentRootNode == null) {
+                return null;
+            }
+        }
+        return parentNode;
     }
 
     public void traverse(final TraversalType traversalType) {
@@ -157,7 +186,7 @@ public class BinarySearchTree {
             nodes.add(currentRootNode);
         }
 
-        while (!nodes.isEmpty() && nodes.get(0) != null) {
+        while (!nodes.isEmpty()) {
             final BinarySearchTreeNode node = nodes.remove(0);
             System.out.print(node.getData() + " ");
 
